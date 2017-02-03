@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { formatPrice } from '../helpers';
 
 class Order extends React.Component {
     constructor() {
-        super();
+        super(); 
 
         this.renderOrder = this.renderOrder.bind(this);
     }
@@ -11,14 +11,15 @@ class Order extends React.Component {
     renderOrder(key) {
         let fish = this.props.fishes[key];
         let count = this.props.order[key];
+        let removeButton = <button onClick={() => this.props.removeFromOrder(key)}>&times;</button>;
 
         if (!fish || fish.status === 'unavailable') {
-            return <li key={key}>Sorry, {fish ? fish.name : 'fish'} is not available.</li>;
+            return <li key={key}>Sorry, {fish ? fish.name : 'fish'} is not available. {removeButton}</li>;
         }
 
         return (
             <li key={key}>
-                <span>{count}lbs {fish.name}</span>
+                <span>{count}lbs {fish.name} {removeButton}</span>
                 <span className="price">
                     {formatPrice(count * fish.price)}
                 </span>
@@ -28,6 +29,7 @@ class Order extends React.Component {
 
     render() {
         let orderIds = Object.keys(this.props.order);
+
         let total = orderIds.reduce((prevTotal, key) => {
             let fish = this.props.fishes[key];
             let count = this.props.order[key];
@@ -43,6 +45,7 @@ class Order extends React.Component {
         return (
             <div className="order-wrap">
                 <h2>Your Order</h2>
+
                 <ul className="order">
                     {orderIds.map(this.renderOrder)}
 
@@ -55,5 +58,11 @@ class Order extends React.Component {
         );
     }
 }
+
+Order.propTypes = {
+    fishes: PropTypes.object.isRequired,
+    order: PropTypes.object.isRequired,
+    removeFromOrder: PropTypes.func.isRequired
+};
 
 export default Order;

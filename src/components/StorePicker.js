@@ -2,6 +2,12 @@ import React from 'react';
 import { getFunName } from '../helpers';
 
 class StorePicker extends React.Component {
+    constructor() {
+        super();
+
+        this.goToStore = this.goToStore.bind(this);
+    }
+
     goToStore(event) {
         event.preventDefault();
 
@@ -12,7 +18,7 @@ class StorePicker extends React.Component {
 
     render() {
         return (
-            <form className="store-selector" onSubmit={this.goToStore.bind(this)}>
+            <form className="store-selector" onSubmit={this.goToStore}>
                 <h2>Please Enter a Store</h2>
                 <input type="text"
                        placeholder="Store Name"

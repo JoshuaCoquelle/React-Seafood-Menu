@@ -1,5 +1,5 @@
 // Modules
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 // Components
 import Header from './Header';
@@ -20,10 +20,17 @@ class App extends React.Component {
             order: {}
         };
 
+        // Fish methods
         this.addFish = this.addFish.bind(this);
         this.updateFish = this.updateFish.bind(this);
-        this.loadSamples = this.loadSamples.bind(this);
+        this.removeFish = this.removeFish.bind(this);
+
+        // Order methods
         this.addToOrder = this.addToOrder.bind(this);
+        this.removeFromOrder = this.removeFromOrder.bind(this);
+
+        // Helper methods
+        this.loadSamples = this.loadSamples.bind(this);
     }
 
     componentWillMount() {
@@ -60,7 +67,16 @@ class App extends React.Component {
 
     updateFish(key, updatedFish) {
         let fishes = {...this.state.fishes};
+
         fishes[key] = updatedFish;
+
+        this.setState({ fishes });
+    }
+
+    removeFish(key) {
+        let fishes = {...this.state.fishes};
+
+        fishes[key] = null;
 
         this.setState({ fishes });
     }
@@ -77,6 +93,13 @@ class App extends React.Component {
         this.setState({ order });
     }
 
+    removeFromOrder(key) {
+        let order = {...this.state.order};
+
+        delete order[key];
+
+        this.setState({ order });
+    }
 
     render() {
         return (
@@ -105,6 +128,7 @@ class App extends React.Component {
                     fishes={this.state.fishes}
                     order={this.state.order}
                     params={this.props.params}
+                    removeFromOrder={this.removeFromOrder}
                 />
                 
                 {/* All Inventory Component */}
@@ -112,11 +136,16 @@ class App extends React.Component {
                     fishes={this.state.fishes}
                     addFish={this.addFish}
                     updateFish={this.updateFish}
+                    removeFish={this.removeFish}
                     loadSamples={this.loadSamples}
                 />
             </div>
         );
     }
 }
+
+App.propTypes = {
+    params: PropTypes.object.isRequired
+};
 
 export default App;

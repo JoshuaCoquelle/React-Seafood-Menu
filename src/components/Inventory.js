@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import AddFishForm from './AddFishForm';
 
 class Inventory extends React.Component {
@@ -11,6 +11,7 @@ class Inventory extends React.Component {
 
     handleChange(e, key) {
         let fish = this.props.fishes[key];
+
         let updatedFish = {
             ...fish,
             [e.target.name]: e.target.value
@@ -24,23 +25,53 @@ class Inventory extends React.Component {
 
         return (
             <div className="fish-edit" key={key}>
-                <input name="name" type="text" value={fish.name} placeholder="Fish Name"
+                {/* Fish Name*/}
+                <input 
+                    name="name" 
+                    type="text" 
+                    placeholder="Fish Name"
+                    value={fish.name} 
                     onChange={(e) => this.handleChange(e, key)}
                 />
-                <input name="price" type="text" value={fish.price} placeholder="Fish Price"
+
+                {/* Fish Price */}
+                <input 
+                    name="price" 
+                    type="text" 
+                    placeholder="Fish Price"
+                    value={fish.price} 
                     onChange={(e) => this.handleChange(e, key)}
                 />
-                <select name="status" value={fish.status}
-                    onChange={(e) => this.handleChange(e, key)}>
+
+                {/* Fish Availablity */}
+                <select name="status"
+                        value={fish.status}
+                        onChange={(e) => this.handleChange(e, key)}
+                >
                     <option value="available">Fresh!</option>
                     <option value="unavailable">Sold Out</option>
                 </select>
-                <textarea name="desc" type="text" value={fish.desc} placeholder="Fish Desc"
-                    onChange={(e) => this.handleChange(e, key)}>
+
+                {/* Fish Description */}
+                <textarea
+                    name="desc"
+                    type="text"
+                    placeholder="Fish Desc"
+                    value={fish.desc}
+                    onChange={(e) => this.handleChange(e, key)}
+                >
                 </textarea>
-                <input name="image" type="text" value={fish.image} placeholder="Fish Image"
+
+                {/* Fish Thumbnail */}
+                <input 
+                    name="image"
+                    type="text"
+                    value={fish.image} placeholder="Fish Image"
                     onChange={(e) => this.handleChange(e, key)}
                 />
+
+                {/* Remove Fish from Inventory */}
+                <button onClick={() => this.props.removeFish(key)}>Remove Fish</button>
             </div>
         );
     }
@@ -55,6 +86,13 @@ class Inventory extends React.Component {
             </div>
         );
     }
+}
+
+Inventory.propTypes = {
+    fishes: PropTypes.object.isRequired,
+    updateFish: PropTypes.func.isRequired,
+    addFish: PropTypes.func.isRequired,
+    loadSamples: PropTypes.func.isRequired
 }
 
 export default Inventory;
