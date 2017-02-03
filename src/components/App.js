@@ -76,7 +76,7 @@ class App extends React.Component {
     removeFish(key) {
         let fishes = {...this.state.fishes};
 
-        fishes[key] = null;
+        fishes[key] = null; 
 
         this.setState({ fishes });
     }
@@ -133,6 +133,7 @@ class App extends React.Component {
                 
                 {/* All Inventory Component */}
                 <Inventory
+                    storeId={this.props.params.storeId}
                     fishes={this.state.fishes}
                     addFish={this.addFish}
                     updateFish={this.updateFish}
